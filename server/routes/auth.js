@@ -1,8 +1,7 @@
 const express=require('express')
+const showMsg=require('../controllers/auth')
 const router=express.Router()
 
-router.get('/:message',(req,res)=>{
-    res.status(201).send(`Here is your message ${req.params.message}`)
-})
+router.get('/:message',showMsg)
 
 module.exports=router
