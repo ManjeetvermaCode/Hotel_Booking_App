@@ -11,7 +11,7 @@ const Register=()=>{
   async function submitHandler(e){
     e.preventDefault()
     try{
-        const res=await axios.post('http://localhost:3000/api/register',{name,email,password})
+        const res=await axios.post('http://localhost:5000/api/register',{name,email,password})
         console.log('data is sended successfully ==>' ,res)
     }catch(e){
         console.log('unabled to send data to the backend', e)
