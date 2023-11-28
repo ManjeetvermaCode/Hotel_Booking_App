@@ -9,8 +9,9 @@ const port=process.env.PORT
 const app=express()
 
 //middlewares
-app.use(morgan('dev'))
 app.use(cors())
+app.use(morgan('dev'))
+app.use(express.json())
 
 //route middleware
 readdirSync('./routes')
