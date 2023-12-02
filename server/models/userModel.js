@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+const bcrypt=require('bcrypt')
 const {Schema}=mongoose
 
 
@@ -26,6 +27,22 @@ const userSchema=new Schema({
 },
 {
     timestamps:true//adds another field to the model which stores the date and time when the model instance is created or modified.
+})
+
+userSchema.pre("save",function(next){
+    let user=this// 'this' is refering to current instance of model, i.e user model
+    if(user.isModified("password")){
+        return bcrypt.hash(user.password,12,function(err,hash){
+            if(err){
+                console.log('Had trouble hashing the password', err)
+                return next(err)
+            }
+            user.password=hash
+            return next()
+
+        })
+    }
+    return next()
 })
 
 module.exports=mongoose.model("User",userSchema)
