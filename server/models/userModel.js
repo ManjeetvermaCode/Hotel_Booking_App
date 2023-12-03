@@ -2,34 +2,33 @@ const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const {Schema}=mongoose
 
-
-const userSchema=new Schema({
+const UserSchema=new Schema({
     name:{
-        required:'Name is required',
-        trim:true,//this removes all the extra empty white spaces
         type:String,
+        required:true,
+        trim:true
     },
     email:{
-        required:'Email is required',
-        trim:true,
         type:String,
+        required:true,
+        trim:true,
         unique:true
     },
     password:{
-        required:'Password is required',
+        type:String,
+        required:true,
         trim:true,
         min:8,
         max:64
     },
-    strip_account_id:'',
-    stripe_seller:{},
-    stripeSession:{}
-},
-{
-    timestamps:true//adds another field to the model which stores the date and time when the model instance is created or modified.
+    // stripe_account_id:'',
+    // stripe_seller:{},
+    // stripeSession:{}
+},{
+    timestamps:true
 })
 
-userSchema.pre("save",function(next){
+UserSchema.pre("save",function(next){
     let user=this// 'this' is refering to current instance of model, i.e user model
     if(user.isModified("password")){
         return bcrypt.hash(user.password,12,function(err,hash){
@@ -44,5 +43,5 @@ userSchema.pre("save",function(next){
     }
     return next()
 })
-
-module.exports=mongoose.model("User",userSchema)
+const User=mongoose.model("User",UserSchema)
+module.exports=User
