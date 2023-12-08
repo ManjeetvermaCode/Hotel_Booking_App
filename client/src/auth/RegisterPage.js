@@ -3,7 +3,9 @@ import axios from 'axios'
 
 import RegisterForm from '../components/registerForm.js'
 
-const Register=()=>{
+import {toast} from 'react-toastify'
+
+const Register=({history})=>{
     const [name,setname]=useState('')
     const [password,setpassword]=useState('')
     const [email,setemail]=useState('')
@@ -13,8 +15,11 @@ const Register=()=>{
     try{
         const res=await axios.post('http://localhost:5000/api/register',{name,email,password})
         console.log('data is sended successfully ==>' ,res)
+        toast.success('Registration is done successfully, please login')
+        history.push('/login')
     }catch(e){
         console.log('unabled to send data to the backend', e)
+        toast.error(e.response.data)
     }
 }
 
@@ -24,7 +29,6 @@ const Register=()=>{
         <div className='container-fluid bg-secondary p-5 text-center p-3'>
             RegisterPage
         </div>
-
         <div className='container'>
             <div className='row'>
                 <div className='col-md-6 offset-md-3'>{/* div will take 6 unite of space and 3,3 unite will be left space left and right */}

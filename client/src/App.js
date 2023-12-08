@@ -6,10 +6,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';//Note
 
 import NavBar from "./components/NavBar";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <Router>
       <NavBar/>
+      <ToastContainer position="top-center"/>
       <Switch>
         <Route path='/' exact component={Home}></Route>
         {/* without exact home page will get rendered even if login page is requested */}
