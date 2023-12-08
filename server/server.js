@@ -9,10 +9,20 @@ const exp = require('constants')
 const port=process.env.PORT
 const app=express()
 
+
+// console.log('hosted on portno ', process.env.port)
+
+const corsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  };
+  
+
 //middlewares
-app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())//this parse json data into req.body
+app.use(cors(corsOptions))
+
 // app.use(express.urlencoded({extended:true}))//used for handling url encoded data that usually comes from form data.
 
 //route middleware
