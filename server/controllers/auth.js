@@ -1,17 +1,62 @@
-const {User}=require('../models/userModel')
+// const {User}=require('../models/userModel')
 
-const register=async(req,res)=>{
-const {name,email,password}=req.body
+// const register=async(req,res)=>{
+// const {name,email,password}=req.body
 
-if(!name)return res.status(401).send('Username is required')
-if(!password||password.legth<8)return res.status(401).send('Password is required and Password should be atleast 8 characters long.')
+// if(!name)return res.status(401).send('Username is required')
+// if(!password||password.length<8)return res.status(401).send('Password is required and Password should be atleast 8 characters long.')
 
-const userExist=await User.findOne({email})
-if(userExist){
-    console.log('Email already exists')
-}
+// const userExist=await User.find(req.body.email).exec()
+// if(userExist){
+//     console.log('Email already exists')
+//     return res
+//         .status(409)
+//         .json('Email already exists')
+// }
 
-// console.log(`users name is ${name}, email is ${email} and his password is ${password}`)
-}
+// const user=new User(req.body)
+// try {
+//     await user.save()
+//     console.log(
+//         'user saved successfully'
+//     )
+//     return res.status(200).json({'ok':true})
+// } catch (error) {
+//     res.status(400).send('User Creation Failed',error)
 
-module.exports={register}
+// }
+// // console.log(`users name is ${name}, email is ${email} and his password is ${password}`)
+// }
+
+// module.exports={register}
+
+const User = require('../models/userModel');
+
+const register = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name) return res.status(401).send('Username is required');
+  if (!password || password.length < 8) return res.status(401).send('Password is required and should be at least 8 characters long.');
+
+  try {
+    // Check if a user with the same email already exists
+    const userExist = await User.findOne({ email }).exec();
+
+    if (userExist) {
+      console.log('Email already exists');
+      return res.status(409).send('Email already exists');
+    }
+
+    // If the user doesn't exist, create a new user
+    const user = new User({ name, email, password });
+    await user.save();
+
+    console.log('User saved successfully');
+    return res.status(200).json({ 'ok': true });
+  } catch (error) {
+    console.error('User Creation Failed', error);
+    return res.status(400).send('User Creation Failed');
+  }
+};
+
+module.exports = { register };
