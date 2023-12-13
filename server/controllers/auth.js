@@ -1,35 +1,3 @@
-// const {User}=require('../models/userModel')
-
-// const register=async(req,res)=>{
-// const {name,email,password}=req.body
-
-// if(!name)return res.status(401).send('Username is required')
-// if(!password||password.length<8)return res.status(401).send('Password is required and Password should be atleast 8 characters long.')
-
-// const userExist=await User.find(req.body.email).exec()
-// if(userExist){
-//     console.log('Email already exists')
-//     return res
-//         .status(409)
-//         .json('Email already exists')
-// }
-
-// const user=new User(req.body)
-// try {
-//     await user.save()
-//     console.log(
-//         'user saved successfully'
-//     )
-//     return res.status(200).json({'ok':true})
-// } catch (error) {
-//     res.status(400).send('User Creation Failed',error)
-
-// }
-// // console.log(`users name is ${name}, email is ${email} and his password is ${password}`)
-// }
-
-// module.exports={register}
-
 const User = require('../models/userModel');
 
 const register = async (req, res) => {
