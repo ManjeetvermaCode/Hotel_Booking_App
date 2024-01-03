@@ -1,19 +1,32 @@
 import {toast} from 'react-toastify'
 import {useState} from 'react'
-import { register } from '../actions/auth'
+import { login } from '../actions/auth'
 import LoginForm from '../components/loginForm'
 
 const Login=()=>{
-    const [email,setemail]=useState('')
-    const [password,setpassword]=useState('')
+    const [email,setemail]=useState('mj@gmail.com')
+    const [password,setpassword]=useState('12345678')
 
-const submitHandler=(e)=>{
+async function submitHandler(e){
     e.preventDefault()
-    //
+    console.log('User Info', {email,password})
+    try {
+        const res=await login({email,password})
+        console.log('res -',res)
+        // if(res.data){
+        //     console.log('save user res in redux and local storage')
+        //     console.log('res.data')
+        // }
+        
+    } catch (error) {
+        console.log(error)
+        if(error.response.status===400)toast.error(error.response.data)
+    }
 }
+
     return(
         <>
-        <div className='container-fluid bg-secondary text-center p-3'>
+        <div className='container-fluid bg-secondary text-center p-5'>
             Login
         </div>
         <div className='container'>

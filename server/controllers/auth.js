@@ -27,4 +27,31 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { register };
+const login=async(req,res)=>{
+  const {email,password}=req.body
+  const user=await User.findOne({email}).exec()
+  // if(user){
+  //   user.comparePassword(password,(err,match)=>{
+  //     if(!match || err){
+  //       return res.status(400).send('Invalid Password')
+  //     }
+  //     console.log('create and store token')
+  //   })
+  // }else{
+  //   res.status(400).send('email does not exist')
+  // }
+  if(!user){
+    return res.status(400).send('Invalid Email Id or Password')
+  }
+  user.comparePassword(password,(err,match)=>{
+
+    if(err||!match){
+      return res.status(400).send('Invalid Password')
+    }
+    return res.status(400).send('Logged In successfully')
+
+    // console.log(err,match)
+  })
+}
+
+module.exports = { register, login };
