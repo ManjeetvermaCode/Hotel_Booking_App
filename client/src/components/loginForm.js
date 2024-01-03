@@ -1,6 +1,6 @@
-const LoginForm=({submithandler,email,setemail,password,setpassword})=>{
+const LoginForm=({submitHandler,email,setemail,password,setpassword})=>{
     return(
-        <form onSubmit={submithandler} className='mt-3'>
+        <form onSubmit={submitHandler} className='mt-3'>
                 <div className='form-group mb-3'>
                     <label className='form-label'>Enter Email</label>
                     <input className='form-control' type='email' value={email} onChange={(e)=>setemail(e.target.value)}></input>

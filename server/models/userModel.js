@@ -29,7 +29,7 @@ const UserSchema=new Schema({
 })
 
 UserSchema.pre("save",function(next){
-    let user=this// 'this' is refering to current instance of model, i.e user model
+    let user=this// 'this' is refering to current instance of model/document, i.e user model
     if(user.isModified("password")){
         return bcrypt.hash(user.password,12,function(err,hash){
             if(err){
@@ -43,5 +43,18 @@ UserSchema.pre("save",function(next){
     }
     return next()
 })
+
+UserSchema.methods.comparePassword=function(password,next){
+    bcrypt.compare(password,this.password,function(err,match){
+        if(err){
+            console.log('Incorrect Username or Password',err)
+            return next(err)
+        }
+        console.log('Successfully logged In')
+        return next(null,match)
+    })
+}
+
 const User=mongoose.model("User",UserSchema)
+
 module.exports=User
