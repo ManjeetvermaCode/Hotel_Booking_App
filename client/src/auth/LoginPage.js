@@ -3,20 +3,30 @@ import {useState} from 'react'
 import { login } from '../actions/auth'
 import LoginForm from '../components/loginForm'
 
+import {useDispatch} from 'react-redux'
+
 const Login=()=>{
     const [email,setemail]=useState('mj@gmail.com')
     const [password,setpassword]=useState('12345678')
 
+    const dispatch=useDispatch()
+
 async function submitHandler(e){
     e.preventDefault()
-    console.log('User Info', {email,password})
     try {
         const res=await login({email,password})
         console.log('res -',res)
-        // if(res.data){
-        //     console.log('save user res in redux and local storage')
-        //     console.log('res.data')
-        // }
+        if(res.data){
+            console.log('save user res in redux and local storage')
+
+            //save user in localstorage
+            window.localStorage.setItem('UserInfo',JSON.stringify(res.data))
+            //save user in redux store
+            dispatch({
+                type:'LOGGED_IN_USER',
+                payload:res.data
+            })
+        }
         
     } catch (error) {
         console.log(error)
