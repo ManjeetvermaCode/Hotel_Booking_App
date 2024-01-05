@@ -5,7 +5,7 @@ import LoginForm from '../components/loginForm'
 
 import {useDispatch} from 'react-redux'
 
-const Login=()=>{
+const Login=({history})=>{
     const [email,setemail]=useState('mj@gmail.com')
     const [password,setpassword]=useState('12345678')
 
@@ -20,12 +20,13 @@ async function submitHandler(e){
             console.log('save user res in redux and local storage')
 
             //save user in localstorage
-            window.localStorage.setItem('UserInfo',JSON.stringify(res.data))
+            window.localStorage.setItem('userInfo',JSON.stringify(res.data))
             //save user in redux store
             dispatch({
                 type:'LOGGED_IN_USER',
                 payload:res.data
             })
+            history.push('/')
         }
         
     } catch (error) {
